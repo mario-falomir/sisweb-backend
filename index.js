@@ -1,10 +1,18 @@
-import express from "express";
-import morgan from "morgan";
-
-import apiRouter from './src/routes/index.js';
+const express = require("express");
+const morgan = require("morgan");
+const db = require('./src/models/index.js');
+const apiRouter = require('./src/routes/index.js');
 
 const app = express();
 const port = 3000;
+
+db.sequelize.sync()
+ .then(() => {
+	 console.log("Synced db.");
+ })
+	 .catch((err) => {
+	 console.log("Failed to sync db: " + err.message);
+ });
 
 app.use(morgan('dev'));
 app.use(express.json());

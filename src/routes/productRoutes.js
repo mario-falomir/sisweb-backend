@@ -1,6 +1,6 @@
-import { Router } from 'express';
+const express = require("express");
 
-const productRouter = Router();
+const productRouter = express.Router();
 
 productRouter.get('/', (req, res) => {
  res.send('Get a list of products')
@@ -23,4 +23,4 @@ productRouter.delete('/', (req, res) => {
  res.send(`Deleting the product ${req.body.id}`)
 });
 
-export default productRouter;
+module.exports = productRouter;
