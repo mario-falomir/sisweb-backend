@@ -2,9 +2,8 @@
 const {
   Model
 } = require('sequelize');
-
 module.exports = (sequelize, DataTypes) => {
-  class Product extends Model {
+  class User extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -14,41 +13,34 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   }
-  Product.init(
-  {
-    id : {
+  User.init({
+    id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
     }, 
-    prod_type: {
-      type: DataTypes.ENUM,
-      values: ["cosmetic", "beauty", "cleaning"],
-      defaultValue: "cosmetic",
-    },
     name: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    price: {
-      type: DataTypes.FLOAT,
-      defaultValue: 0,
-      allowNull: false,
-    },
-    instock: {
+
+    phone: {
       type: DataTypes.INTEGER,
-      allowNull: false,
-      defaultValue: 0
+      defaultValue: 0,
     },
-    image: DataTypes.STRING
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    }
   }, {
     sequelize,
-    modelName: 'Product',
+    modelName: 'User',
   });
 
-  Product.associate = function(models) {
-    Product.belongsToMany(models.Orders, {through: "Order_Products", foreignKey: "product_id"});
+  User.associate = function(models) {
+    User.hasMany(models.Orders, {foreignKey: "user_id"});
+    User.hasMany(models.PaymentMethods, {foreignKey: "user_id"});
   };
 
-  return Product;
+  return User;
 };
